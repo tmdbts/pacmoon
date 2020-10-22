@@ -1,6 +1,5 @@
 package org.academiadecodigo.tailormoons.pctest.gameelements.pointables;
 
-import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.pictures.Picture;
 import org.academiadecodigo.tailormoons.pctest.gamecontrol.Direction;
 import org.academiadecodigo.tailormoons.pctest.gamecontrol.Position;
@@ -12,25 +11,25 @@ import java.util.PriorityQueue;
 public class Ghost extends Pointable {
 
     private static boolean fragile;
+    private final double CHANGE_DIRECTION_ODD = 0.10;
+    private boolean notInitialMove;
+    private int randomMoveSelector = (int) (Math.random() * 2);
+    private String normal;
+    private String vulnerable;
+    private boolean changeDirectionNeeded;
+
     private Direction direction = Direction.UP;
     private Direction lastDirection = direction;
     private PositionManager positionManager;
-    private final double CHANGE_DIRECTION_ODD = 0.10;
     private Position initialChasePosition1 = new Position(3, 4);
     private Position initialChasePosition2 = new Position(11, 4);
     private Position ghostHouse = new Position(7, 6);
     private Picture ghostSymbol;
-    private int counter = 0;
-    private int counter2 = 0;
-    private boolean notInitialMove;
     private Direction changeDirection;
-    private boolean changeDirectionNeeded;
     private ArrayList<Direction> lastDirections = new ArrayList<>();
-    int randomMoveSelector = (int) (Math.random() * 2);
-    private String normal;
-    private String vulnerable;
 
     public Ghost(String normal, String vulnerable) {
+
         position = new Position(7, 7);
         this.normal = normal;
         this.vulnerable = vulnerable;
@@ -59,7 +58,6 @@ public class Ghost extends Pointable {
                     chooseDirection(positionManager.getPacman().getPosition());
                 }
             }
-
         } else if (!isEaten() && isFragile()) {
             ghostSymbol.delete();
             ghostSymbol.load(this.vulnerable);
@@ -71,7 +69,6 @@ public class Ghost extends Pointable {
                 Position oppositePacMan = new Position(Math.abs(positionManager.getPacman().getPosition().getCol() - 14), Math.abs(positionManager.getPacman().getPosition().getRow() - 14));
                 chooseDirection(oppositePacMan);
             }
-
         } else if (isEaten()) {
             ghostSymbol.delete();
             this.eaten = false;
@@ -80,89 +77,32 @@ public class Ghost extends Pointable {
             position.setPosition(7, 7);
             ghostSymbol = new Picture(gridPadding + position.getCol() * gridCellSize, gridPadding + position.getRow() * gridCellSize, normal); // added
             ghostSymbol.draw();
-
         }
-
     }
 
     private void randomMove() {
+
         if (Math.random() < CHANGE_DIRECTION_ODD) {
             if (positionManager.isMovePossible(position, direction, this)) {
                 newPosition();
                 return;
             }
         }
+
         Direction newDirection = direction.opposite();
+
         while (newDirection == direction.opposite()) {
             newDirection = Direction.values()[(int) (Math.random() * Direction.values().length)];
         }
+
         direction = newDirection;
+
         if (positionManager.isMovePossible(position, direction, this)) {
             newPosition();
         }
     }
 
     private void chooseDirection(Position targetPosition) {
-/*
-        if (changeDirectionNeeded) {
-            System.out.println("here");
-            if (counter2 == 5) {
-                System.out.println("ok");
-                changeDirectionNeeded = false;
-                counter2 = 0;
-                counter = 0;
-                lastDirections.clear();
-                return;
-            }
-            Direction wanted = changeDirection;
-            System.out.println("changed");
-            if (positionManager.isMovePossible(position, wanted, this)) {
-                System.out.println("move");
-                direction = wanted;
-                counter2++;
-                newPosition();
-                return;
-            } else {
-                changeDirection = Direction.values()[(int) (Math.random() * Direction.values().length)];
-            }
-
-        }
-
-        if (counter == 10) {
-            ArrayList<Direction> even = new ArrayList<>();
-            boolean repetitionInEven = false;
-            ArrayList<Direction> odd = new ArrayList<>();
-            boolean repetitionInOdd = false;
-
-            for (int i = 0; i < counter; i++) {
-                if (i % 2 == 0) {
-                    even.add(lastDirections.get(i));
-                } else {
-                    odd.add(lastDirections.get(i));
-                }
-            }
-            for (Direction dir : even) {
-                if (dir.equals(even.get(0))) {
-                    repetitionInEven = true;
-                } else {
-                    break;
-                }
-            }
-            for (Direction dir : odd) {
-                if (dir.equals(odd.get(0))) {
-                    repetitionInOdd = true;
-                } else {
-                    break;
-                }
-            }
-            if ((repetitionInEven && repetitionInOdd) && (even.get(0).equals(odd.get(0))) ){
-                changeDirectionNeeded = true;
-                changeDirection = Direction.values()[(int) (Math.random() * Direction.values().length)];
-                chooseDirection(targetPosition);
-
-            }
-        }
-*/
 
         Option up = new Option(targetPosition, Direction.UP);
         up.newPossiblePosition(position.getCol(), position.getRow() - 1);
@@ -195,18 +135,12 @@ public class Ghost extends Pointable {
                 break;
             }
         }
-
-/*
-        counter++;
-        if(counter == 11){
-            counter = 0;
-            lastDirections.clear();
-        }*/
         newPosition();
     }
 
 
     private void newPosition() {
+
         lastDirection = direction;
         switch (direction) {
             case LEFT:
@@ -225,11 +159,11 @@ public class Ghost extends Pointable {
                 position.setPosition(position.getCol(), position.getRow() + 1);
                 ghostSymbol.translate(0, gridCellSize);
                 break;
-
         }
     }
 
     private void initialMove() {
+
         if (position.getRow() > 4) {
             direction = Direction.UP;
             newPosition();
@@ -249,7 +183,6 @@ public class Ghost extends Pointable {
                     return;
                 }
             }
-
         }
     }
 
@@ -258,6 +191,7 @@ public class Ghost extends Pointable {
     }
 
     public static void makeFragile() {
+
         Ghost.fragile = true;
         Thread t = new Thread(() -> {
             try {
@@ -286,9 +220,9 @@ public class Ghost extends Pointable {
         private int hCost;
 
         public Option(Position targetPosition, Direction direction) {
+
             position = targetPosition;
             this.direction = direction;
-
         }
 
         public void sethCost(int hCost) {
@@ -305,6 +239,4 @@ public class Ghost extends Pointable {
             return Integer.compare(hCost, obj.hCost);
         }
     }
-
-
 }

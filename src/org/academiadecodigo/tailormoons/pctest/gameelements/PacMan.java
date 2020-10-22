@@ -1,7 +1,5 @@
 package org.academiadecodigo.tailormoons.pctest.gameelements;
 
-import org.academiadecodigo.simplegraphics.graphics.Color;
-import org.academiadecodigo.simplegraphics.graphics.Ellipse;
 import org.academiadecodigo.simplegraphics.keyboard.Keyboard;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEvent;
 import org.academiadecodigo.simplegraphics.keyboard.KeyboardEventType;
@@ -19,11 +17,12 @@ public class PacMan extends GameElement {
     private boolean dead;
     private Picture pacManSymbol;
     private int livesLeft = 3;
-    private Position initialPosition = new Position(7,9);
+    private Position initialPosition = new Position(7, 9);
 
 
-    public PacMan(){
-        position = new Position(7,9);
+    public PacMan() {
+
+        position = new Position(7, 9);
         setup();
     }
 
@@ -31,9 +30,9 @@ public class PacMan extends GameElement {
         this.positionManager = positionManager;
     }
 
-    public void move(){
+    public void move() {
 
-        if(positionManager.isMovePossible(position,direction, this)){
+        if (positionManager.isMovePossible(position, direction, this)) {
             lastDirection = direction;
             switch (direction) {
                 case LEFT:
@@ -42,23 +41,24 @@ public class PacMan extends GameElement {
                     break;
                 case RIGHT:
                     position.setPosition(position.getCol() + 1, position.getRow());
-                    pacManSymbol.translate(gridCellSize,0);
+                    pacManSymbol.translate(gridCellSize, 0);
                     break;
                 case UP:
                     position.setPosition(position.getCol(), position.getRow() - 1);
-                    pacManSymbol.translate(0,-gridCellSize);
+                    pacManSymbol.translate(0, -gridCellSize);
                     break;
                 case DOWN:
                     position.setPosition(position.getCol(), position.getRow() + 1);
-                    pacManSymbol.translate(0,gridCellSize);
+                    pacManSymbol.translate(0, gridCellSize);
                     break;
             }
-        }else{
+        } else {
             direction = lastDirection;
         }
     }
 
     private void setup() {
+
         Keyboard keyboard1 = new Keyboard(new KeyboardListener(this));
 
         KeyboardEvent left = new KeyboardEvent();
@@ -97,22 +97,25 @@ public class PacMan extends GameElement {
         return dead;
     }
 
-    public int getLivesLeft(){
+    public int getLivesLeft() {
+        
         System.out.println("LIVES LEFT");
         return livesLeft;
     }
 
-    public void takeLife(){
+    public void takeLife() {
+
         livesLeft--;
-        if (livesLeft == 0){
+        if (livesLeft == 0) {
             dead = true;
             return;
         }
 
         pacManSymbol.delete();
-        try{
+
+        try {
             Thread.sleep(500);
-        }catch (Exception e){
+        } catch (Exception e) {
         }
         position.setPosition(initialPosition.getCol(), initialPosition.getRow());
         pacManSymbol = new Picture(gridPadding + getPosition().getCol() * gridCellSize, gridPadding + getPosition().getRow() * gridCellSize, "assets/tailormoon.png");
@@ -129,6 +132,7 @@ public class PacMan extends GameElement {
 
         @Override
         public void keyPressed(KeyboardEvent event) {
+
             switch (event.getKey()) {
                 case KeyboardEvent.KEY_LEFT:
                     pacman.setDirection(Direction.LEFT);

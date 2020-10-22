@@ -5,7 +5,8 @@ public class Player {
     private int points;
     private int extraPoints;
 
-    public void addPoints(int points){
+    public void addPoints(int points) {
+
         this.points += points;
         System.out.println(this.points);
     }

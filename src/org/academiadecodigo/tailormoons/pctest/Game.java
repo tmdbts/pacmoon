@@ -2,7 +2,6 @@ package org.academiadecodigo.tailormoons.pctest;
 
 import org.academiadecodigo.simplegraphics.graphics.Color;
 import org.academiadecodigo.simplegraphics.graphics.Text;
-import org.academiadecodigo.simplegraphics.pictures.Picture;
 import org.academiadecodigo.tailormoons.pctest.gamecontrol.Info;
 import org.academiadecodigo.tailormoons.pctest.gamecontrol.PositionManager;
 import org.academiadecodigo.tailormoons.pctest.gameelements.*;
@@ -14,7 +13,7 @@ public class Game {
     private PacMan pacman = new PacMan();
     PositionManager positionManager = new PositionManager();
     private Ghost francisco = new Ghost("assets/francisco21.png", "assets/franciscoFragile.png");
-    private Ghost sid = new Ghost( "assets/sid.png", "assets/SidFragile.png");
+    private Ghost sid = new Ghost("assets/sid.png", "assets/SidFragile.png");
     private Ghost vando = new Ghost("assets/vando.png", "assets/vandoFragile.png");
     private Info info = new Info();
     Text showPoints;
@@ -24,6 +23,7 @@ public class Game {
     }
 
     public void setup() {
+
         positionManager.setGrid(grid);
         positionManager.setPacman(pacman);
         pacman.setPositionManager(positionManager);
@@ -34,16 +34,17 @@ public class Game {
         vando.setPositionManager(positionManager);
         info.drawLives();
 
-        showPoints = new Text(700,845, player.getPoints() + "");
+        showPoints = new Text(700, 845, player.getPoints() + "");
         showPoints.setColor(Color.WHITE);
-        showPoints.grow(15,20);
+        showPoints.grow(15, 20);
         showPoints.draw();
 
     }
 
     public void start() {
-        while ((!pacman.isDead()) && (!endGame())){
-            try{
+
+        while ((!pacman.isDead()) && (!endGame())) {
+            try {
                 showPoints();
                 pacman.move();
                 francisco.move();
@@ -51,7 +52,7 @@ public class Game {
                 vando.move();
                 positionManager.updateGameElements();
                 Thread.sleep(200);
-            }catch (Exception ex){
+            } catch (Exception ex) {
 
             }
         }
@@ -62,11 +63,11 @@ public class Game {
         info.champ();
     }
 
-    private boolean endGame(){
+    private boolean endGame() {
         return player.getPoints() >= 134;
     }
 
-    private void showPoints(){
+    private void showPoints() {
         showPoints.setText(player.getPoints() + "");
     }
 

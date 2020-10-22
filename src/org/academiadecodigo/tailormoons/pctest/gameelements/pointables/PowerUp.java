@@ -9,6 +9,7 @@ public class PowerUp extends Pointable {
     private Picture powerUpShape;
 
     public PowerUp(PowerUpType powerUpType, int col, int row) {
+
         this.powerUpType = powerUpType;
         this.position = new Position(col, row);
         extraPoints = 10;

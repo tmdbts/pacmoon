@@ -16,13 +16,14 @@ public class Grid {
     private static final int CELL_SIZE = 50;
 
     public Grid() {
+
         init();
         initialDrawing();
     }
 
     private void init() {
 
-        Picture background = new Picture(PADDING,PADDING,"assets/Starrysky.jpg");
+        Picture background = new Picture(PADDING, PADDING, "assets/Starrysky.jpg");
         background.draw();
 
         Rectangle data = new Rectangle(PADDING, PADDING * 2 + row * CELL_SIZE, CELL_SIZE * col, 100);
@@ -206,6 +207,7 @@ public class Grid {
         ((Dot) arena[13][9]).drawShape();
 
         Thread timer = new Thread(() -> {
+
             try {
                 Thread.sleep(15000);
                 ((Dot) arena[1][5]).hideShape();
@@ -213,11 +215,9 @@ public class Grid {
                 arena[1][5] = new PowerUp(PowerUpType.HTML, 1, 5);
                 ((PowerUp) arena[1][5]).drawShape();
                 Thread.sleep(10000);
-                //if (arena[1][5].isEaten()) {
-                //    temp.makeEaten();
-                //}
                 ((PowerUp) arena[1][5]).hideShape();
                 arena[1][5] = temp;
+
                 if (!arena[1][5].isEaten()) {
                     ((Dot) temp).drawShape();
                 }
@@ -228,9 +228,7 @@ public class Grid {
                 arena[4][4] = new PowerUp(PowerUpType.JAVA, 4, 4);
                 ((PowerUp) arena[4][4]).drawShape();
                 Thread.sleep(10000);
-                //if (arena[4][4].isEaten()) {
-                //    temp.makeEaten();
-                //}
+
                 ((PowerUp) arena[4][4]).hideShape();
                 arena[4][4] = temp;
                 if (!arena[4][4].isEaten()) {
@@ -242,9 +240,7 @@ public class Grid {
                 arena[12][7] = new PowerUp(PowerUpType.JS, 12, 7);
                 ((PowerUp) arena[12][7]).drawShape();
                 Thread.sleep(10000);
-                //if (arena[12][7].isEaten()) {
-                //    temp.makeEaten();
-                //}
+
                 ((PowerUp) arena[12][7]).hideShape();
                 arena[12][7] = temp;
                 if (!arena[12][7].isEaten()) {
@@ -256,9 +252,7 @@ public class Grid {
                 arena[10][13] = new PowerUp(PowerUpType.SQL, 10, 13);
                 ((PowerUp) arena[10][13]).drawShape();
                 Thread.sleep(10000);
-                //if (arena[10][13].isEaten()) {
-                //    temp.makeEaten();
-                //}
+
                 ((PowerUp) arena[10][13]).hideShape();
                 arena[10][13] = temp;
                 if (!arena[10][13].isEaten()) {
@@ -273,10 +267,7 @@ public class Grid {
 
 
     public void draw(GameElement element) {
-        /* (element instanceof PacMan) {
-            Ellipse pacmanSymbol = new Ellipse(PADDING + element.getPosition().getCol() * CELL_SIZE, PADDING + element.getPosition().getRow() * CELL_SIZE, CELL_SIZE, CELL_SIZE);
-            pacmanSymbol.setColor(Color.YELLOW);
-            pacmanSymbol.fill();*/
+
         if (element instanceof Ghost) {
             Rectangle ghost1Symbol = new Rectangle(PADDING + element.getPosition().getCol() * CELL_SIZE, PADDING + element.getPosition().getRow() * CELL_SIZE, CELL_SIZE, CELL_SIZE);
             ghost1Symbol.setColor(Color.RED);
